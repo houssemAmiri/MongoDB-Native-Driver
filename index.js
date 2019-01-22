@@ -1,18 +1,3 @@
-const mongodb = require('mongodb')
-const MongoClient = mongodb.MongoClient
-//connection URI
-const url = 'mongodb://localhost:27017/edx-course-db'
-//use connect method to connect to the server
-MongoClient.connect(url, (err, db) => {
- if(err) return process.exit(1)
- console.log('Connectionis okay')
-//perform queries
-
- insertDocuments(db,()=>{
-db.close()
-
- })
-})
 
 //insert documents
 const insertDocuments = (db, callback) => {
@@ -71,3 +56,22 @@ const updateDocument = (db, callback) => {
       callback(docs)
     })
   }
+
+
+const MongoClient = require('mongodb').MongoClient
+// Connection URL
+const url = 'mongodb://localhost:27017/edx-course-db'
+// Use connect method to connect to the Server
+MongoClient.connect(url, (error, db) => {
+  if (error) return process.exit(1)
+  console.log('Connection is okay')
+  insertDocuments(db, () => {
+    updateDocument(db, () => {
+      removeDocument(db, () => {
+        findDocuments(db, () => {
+          db.close()
+        })
+      })
+    })
+  })
+})
