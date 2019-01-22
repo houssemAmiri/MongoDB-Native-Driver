@@ -45,3 +45,29 @@ const updateDocument = (db, callback) => {
     })
   }
   
+  //removing documents
+  const removeDocument = (db, callback) => {
+    // Get the documents collection
+    const collection = db.collection('edx-course-students')
+    // Insert some documents
+    const name = 'Bob'
+    collection.remove({ name : name }, (error, result) => {
+      if (error) return process.exit(1)
+      console.log(result.result.n) // will be 1
+      console.log(`Removed the document where name = ${name}`)
+      callback(result)
+    })
+  }
+  //finding documents
+  var findDocuments = (db, callback) => {
+    // Get the documents collection
+    var collection = db.collection('edx-course-students')
+    // Find some documents
+    collection.find({}).toArray((error, docs) => {
+      if (error) return process.exit(1)
+      console.log(2, docs.length) // will be 2 because we removed one document
+      console.log(`Found the following documents:`)
+      console.dir(docs)
+      callback(docs)
+    })
+  }
