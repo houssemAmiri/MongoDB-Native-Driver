@@ -62,14 +62,16 @@ const MongoClient = require('mongodb').MongoClient
 // Connection URL
 const url = 'mongodb://localhost:27017/edx-course-db'
 // Use connect method to connect to the Server
-MongoClient.connect(url, (error, db) => {
+MongoClient.connect(url, { useNewUrlParser: true },(error, client) => {
+    
   if (error) return process.exit(1)
   console.log('Connection is okay')
+  let db = client.db('edx-course-db')
   insertDocuments(db, () => {
     updateDocument(db, () => {
       removeDocument(db, () => {
         findDocuments(db, () => {
-          db.close()
+          client.close()
         })
       })
     })
