@@ -30,3 +30,18 @@ const insertDocuments = (db, callback) => {
         
     })
 }
+
+//updating documents
+const updateDocument = (db, callback) => {
+    // Get the edx-course-students collection
+    var collection = db.collection('edx-course-students')
+    // Update document where a is 2, set b equal to 1
+    const name = 'Peter'
+    collection.update({ name : name }, { $set: { grade : 'A' } }, (error, result) => {
+        if (error) return process.exit(1)
+        console.log(result.result.n) // will be 1
+        console.log(`Updated the student document where name = ${name}`)
+        callback(result)
+    })
+  }
+  
